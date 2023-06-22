@@ -8,6 +8,14 @@
 \description{
 Tools for analyzing above-ground biomass (AGB) and disturbance timeseries datasets created through the Arctic-Boreal Vulnerability Experiment ('ABoVE') research project (\url{https://daac.ornl.gov/cgi-bin/dataset_lister.pl?p=34}).
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/PredictiveEcology/AGBtrends}
+  \item Report bugs at \url{https://github.com/PredictiveEcology/AGBtrends/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Alex M Chubaty \email{achubaty@for-cast.ca}
 

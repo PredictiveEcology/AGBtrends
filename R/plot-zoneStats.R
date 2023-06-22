@@ -57,16 +57,13 @@ plotZoneStats <- function(file2plot = NULL, weighted = TRUE, out = 1) {
 #'
 #' @param catVar TODO
 #'
-#' @param ptype integer indicating plot type: 1 is XXX; 2 i- YYY. TODO
+#' @param ptype integer indicating plot type: 1 is TODO; 2 is TODO
 #'
 #' @param plotResult TODO
 #'
 #' @return TODO
 #'
 #' @export
-#' @importFrom dplyr mutate relocate
-#' @importFrom ggplot2 aes facet_grid geom_hline geom_line ggplot ggtitle labs xlab ylab
-#' @importFrom stringr str_sub
 plotZoneStatsIntervals <- function(files2plot = NULL, weighted = TRUE, xVar = "ageClass",
                                    groupVar = "tp", catVar = NULL, ptype = 1, plotResult = TRUE) {
   ## compile summary tables

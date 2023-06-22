@@ -6,6 +6,8 @@
 #'
 #' @importFrom dplyr bind_cols filter left_join mutate relocate rename select
 #'
+#' @importFrom fs dir_ls
+#'
 #' @importFrom ggplot2 aes facet_grid geom_errorbar geom_hline geom_line ggplot ggtitle
 #' @importFrom ggplot2 labs scale_x_discrete xlab ylab
 #'
@@ -17,7 +19,7 @@
 #' @importFrom stringr str_c str_detect str_sub
 #'
 #' @importFrom terra as.int cats classify crop levels mask
-#' @importFrom terra rast rasterize vect writeRaster zonal
+#' @importFrom terra rast rasterize terraOptions vect writeRaster zonal
 #'
 #' @importFrom tools file_path_sans_ext
 #'

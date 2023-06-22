@@ -25,7 +25,7 @@ plotZoneStatsIntervals(
 
 \item{catVar}{TODO}
 
-\item{ptype}{integer indicating plot type: 1 is XXX; 2 i- YYY. TODO}
+\item{ptype}{integer indicating plot type: 1 is TODO; 2 is TODO}
 
 \item{plotResult}{TODO}
 }
