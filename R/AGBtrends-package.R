@@ -13,7 +13,7 @@
 #'
 #' @importFrom reproducible prepInputs
 #'
-#' @importFrom sf st_as_sf st_buffer st_cast st_dimension st_intersection
+#' @importFrom sf gdal_utils st_as_sf st_buffer st_cast st_dimension st_intersection
 #' @importFrom sf st_make_valid st_read st_transform
 #'
 #' @importFrom stringr str_c str_detect str_sub
