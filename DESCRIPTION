@@ -18,6 +18,7 @@ Imports:
     fs,
     ggplot2,
     methods,
+    parallelly,
     reproducible,
     sf,
     stringr,
