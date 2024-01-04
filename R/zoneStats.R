@@ -3,15 +3,15 @@
 #' Weighted mean & standard deviation of slopes by age class, time period,
 #' and study area zones of interest.
 #'
-#' @param slopeRaster TODO
+#' @param slopeRaster `SpatRaster` of slope values
 #'
-#' @param weightRaster TODO
+#' @param weightRaster `SpatRaster` of weight values
 #'
-#' @param zoneRaster TODO
+#' @param zoneRaster `SpatRaster` defining zones of interest
 #'
-#' @param cropRaster TODO
+#' @param cropRaster `SpatRaster` to use for cropping
 #'
-#' @param maskRaster TODO
+#' @param maskRaster `SpatRaster`to use for masking
 #'
 #' @template fileID
 #'
@@ -46,13 +46,13 @@ zoneStats <- function(slopeRaster = NULL, weightRaster = NULL, zoneRaster = NULL
   levels(zoneRaster) <- NULL
   names(zoneRaster) <- "value"
 
-  ## 1) count of slope observations by zone
+  ## count of slope observations by zone
   a <- a |>
     dplyr::left_join(terra::zonal(slopeRaster, zoneRaster, fun = "notNA"), by = "value") |>
     dplyr::rename(count = slope)
 
   if (any(!is.na(a$count))) {
-    ## 2) geometric (unweighted) mean by zone
+    ## geometric (unweighted) mean by zone
     meanRast <- terra::zonal(slopeRaster, zoneRaster, fun = "mean", as.raster = TRUE, na.rm = TRUE)
 
     a <- a |>
@@ -62,7 +62,7 @@ zoneStats <- function(slopeRaster = NULL, weightRaster = NULL, zoneRaster = NULL
       ) |>
       dplyr::rename(mean.slope = slope)
 
-    ## 3) sd by zone
+    ## sd by zone
     a <- a |>
       dplyr::left_join(
         terra::zonal(
@@ -72,14 +72,14 @@ zoneStats <- function(slopeRaster = NULL, weightRaster = NULL, zoneRaster = NULL
       dplyr::mutate(sd = sqrt(slope / count)) |>
       select(!slope)
 
-    ## 4.1) sum of wi*xi by zone (numerator of weighted mean)
+    ## sum of wi*xi by zone (numerator of weighted mean)
     b <- terra::zonal(slopeRaster * weightRaster, zoneRaster, fun = "sum", na.rm = TRUE) |>
       dplyr::rename(b = slope)
 
-    ## 4.2) sum of weights by zone (denominator of weighted mean)
+    ## sum of weights by zone (denominator of weighted mean)
     w <- terra::zonal(weightRaster, zoneRaster, fun = "sum", na.rm = TRUE)
 
-    ## 4.3) derive weighted mean
+    ## derive weighted mean
     a <- a |>
       dplyr::left_join(b, by = "value") |>
       dplyr::left_join(w, by = "value") |>
@@ -87,7 +87,7 @@ zoneStats <- function(slopeRaster = NULL, weightRaster = NULL, zoneRaster = NULL
 
     rm(w)
 
-    ## 5) derive weighted sd
+    ## derive weighted sd
     a <- a |>
       dplyr::left_join(
         terra::zonal(
@@ -102,7 +102,7 @@ zoneStats <- function(slopeRaster = NULL, weightRaster = NULL, zoneRaster = NULL
       dplyr::filter(!is.na(count)) |>
       dplyr::select(!c(b, w, x))
 
-    ##  6 b) write to file
+    ##  write to file
     fout <- file.path(destinationPath, paste0("zoneStats_summary_", fileID, ".rds"))
     saveRDS(a, file = fout)
   }

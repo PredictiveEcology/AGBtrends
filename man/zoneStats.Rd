@@ -15,15 +15,15 @@ zoneStats(
 )
 }
 \arguments{
-\item{slopeRaster}{TODO}
+\item{slopeRaster}{\code{SpatRaster} of slope values}
 
-\item{weightRaster}{TODO}
+\item{weightRaster}{\code{SpatRaster} of weight values}
 
-\item{zoneRaster}{TODO}
+\item{zoneRaster}{\code{SpatRaster} defining zones of interest}
 
-\item{cropRaster}{TODO}
+\item{cropRaster}{\code{SpatRaster} to use for cropping}
 
-\item{maskRaster}{TODO}
+\item{maskRaster}{\code{SpatRaster}to use for masking}
 
 \item{fileID}{TODO: e.g. one of \code{"WBI_ecozones"}}
 
