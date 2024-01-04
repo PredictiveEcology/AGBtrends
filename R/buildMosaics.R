@@ -50,12 +50,15 @@ buildMosaics <- function(type, intervals, paths, cl = NULL) {
       tifs <- file.path(od, paste0("AGB_", type , "_mosaic_t", i, ".tif"))
     }
 
+    if (type == "age") {
+      lyrs <- sapply(intervals, head, n = 1L) |> unname()
+    }
+
     sf::gdal_utils(
       util = "buildvrt",
       source = flist[stringr::str_detect(flist, type)],
       destination = vrts,
-      if (type == "age") options = c("-b", c(1, 6, 11, 16, 21, 26)[i]) # time 1 = 1984 etc.
-      ## TODO: allow customizing the time intervals (i.e., get the layers from `intervals`)
+      if (type == "age") options = c("-b", lyrs[i]) # time 1 = 1984 etc.
     )
 
     ## Write to raster mosaics
@@ -63,9 +66,8 @@ buildMosaics <- function(type, intervals, paths, cl = NULL) {
 
     if (type == "age") {
       ## Group into discrete age classes
-      ## TODO: make this customizable with above
-      ages_from <- c( 0, 25, 50,  80, 125)
-      ages_to   <- c(24, 49, 79, 124, 500)
+      ages_from <- c( 0, 25, 50,  80, 125) ## TODO: allow custom age classes
+      ages_to   <- c(24, 49, 79, 124, 500) ## TODO: allow custom age classes
       lvls <- seq(length(ages_from)) |> as.integer()
 
       ageRast <- classify(
