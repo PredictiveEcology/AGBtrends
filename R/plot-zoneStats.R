@@ -25,8 +25,13 @@ plotZoneStats <- function(file2plot = NULL, weighted = TRUE, out = 1) {
                "(1984-2014)"
   )
 
-  if (weighted) meanVar <- "wtd.mean.slope" else meanVar <- "mean.slope"
-  if (weighted) sdVar <- "wtd.sd" else sdVar <- "sd"
+  if (weighted) {
+    meanVar <- "wtd.mean.slope"
+    sdVar <- "wtd.sd"
+  } else {
+    meanVar <- "mean.slope"
+    sdVar <- "sd"
+  }
 
   gp <- ggplot(sumtab, aes(x = ageClass, y = !!as.name(meanVar), group = !!as.name(catvar),
                            color = !!as.name(catvar))) +
@@ -77,8 +82,13 @@ plotZoneStatsIntervals <- function(files2plot = NULL, weighted = TRUE, xVar = "a
   }))
 
   ## validate arguments
-  if (weighted) meanVar <- "wtd.mean.slope" else meanVar <- "mean.slope"
-  if (weighted) sdVar <- "wtd.sd" else sdVar <- "sd"
+  if (weighted) {
+    meanVar <- "wtd.mean.slope"
+    sdVar <- "wtd.sd"
+  } else {
+    meanVar <- "mean.slope"
+    sdVar <- "sd"
+  }
 
   if (is.null(catVar)) catVar <- names(sumtab)[5]
   if (!is.null(groupVar)) groupVar <- match.arg(groupVar, names(sumtab))

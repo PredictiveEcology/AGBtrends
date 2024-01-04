@@ -41,7 +41,6 @@ prepZones <- function(zoi,
     zoiName <- "ZOI" ## TODO: get name from object?
   }
 
-
   ## QC of field to rasterize
   # if (!inherits(class(pull(zoi, field)), 'numeric')) {
   #   zoi <- mutate(zoi, !!field := as.integer(factor(!!as.name(field))))
