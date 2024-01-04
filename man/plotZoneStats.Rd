@@ -2,20 +2,40 @@
 % Please edit documentation in R/plot-zoneStats.R
 \name{plotZoneStats}
 \alias{plotZoneStats}
-\title{Plot summary statistics}
+\alias{plotZoneStatsIntervals}
+\title{Plot zone summary statistics}
 \usage{
-plotZoneStats(file2plot = NULL, weighted = TRUE, out = 1)
+plotZoneStats(files2plot = NULL, weighted = TRUE, plotResult = TRUE)
+
+plotZoneStatsIntervals(
+  files2plot = NULL,
+  weighted = TRUE,
+  xVar = "ageClass",
+  groupVar = "tp",
+  catVar = NULL,
+  ptype = 1,
+  plotResult = TRUE
+)
 }
 \arguments{
-\item{file2plot}{TODO}
+\item{files2plot}{character vector of file paths to \code{.rds} files from which to load
+a previously-built summary \code{data.frame} object to use for constructing plots}
 
-\item{weighted}{TODO}
+\item{weighted}{logical indicating whether to use weighted mean and sd}
 
-\item{out}{TODO}
+\item{plotResult}{logical indicating whether to plot to the active graphics device}
+
+\item{xVar}{character string indicating which variable to plot on the x-axis}
+
+\item{groupVar}{character string indicating the variable to group by}
+
+\item{catVar}{character string indicating the category variable}
+
+\item{ptype}{integer indicating plot type: 1 is TODO; 2 is TODO}
 }
 \value{
-TODO
+\code{ggplot} object
 }
 \description{
-Plot summary statistics
+Plot zone summary statistics
 }
