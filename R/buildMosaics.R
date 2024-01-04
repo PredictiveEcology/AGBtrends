@@ -1,31 +1,35 @@
 #' Build raster mosaics for each time interval
 #'
+#' @param type character string specifying the mosaic type to build.
+#'             one of `"age", "slope", "sample_size"`.
 #' @param intervals named list of time intervals over which to build mosaics
 #'
 #' @param paths named list of directory paths, specifying paths for at least:
 #'              `scratch` and `tiles`.
 #'
-#' @param cores integer specifying the number of cores to use for parallel computations
+#' @param cl cluster object.
 #'
-#' @return `NULL`, invisibly. Invoked for side effects of building and writing raster mosaics
-#'         to disk.
+#' @return character vector of output raster file names (`.tif`).
+#'         Invoked for side effects of building and writing raster mosaics to disk.
 #'
 #' @export
-buildMosaics <- function(intervals, paths, cores) {
-  ## TODO: build non-time interval version too
+buildMosaics <- function(type, intervals, paths, cl = NULL) {
+  stopifnot(type %in% c("age", "slope", "sample_size"))
 
-  ## TODO: use future.apply
-  cl <- parallelly::makeClusterPSOCK(cores,
-                                     default_packages = c("sf", "stringr", "terra"),
-                                     rscript_libs = .libPaths(),
-                                     autoStop = TRUE)
-  on.exit(stopCluster(cl), add = TRUE)
+  cores <- length(intervals)
+
+  if (is.null(cl)) {
+    cl <- parallelly::makeClusterPSOCK(cores,
+                                       default_packages = c("sf", "stringr", "terra"),
+                                       rscript_libs = .libPaths(),
+                                       autoStop = TRUE)
+    on.exit(stopCluster(cl), add = TRUE)
+  }
 
   clusterExport(cl, varlist = c("cores", "paths"))
 
   parallel::clusterEvalQ(cl, {
-    terra::terraOptions(tempdir = paths[["scratch"]], ## TODO: use terra path?
-                        memmax = 25,
+    terra::terraOptions(memmax = 25,
                         memfrac = 0.6 / cores,
                         progress = 1,
                         verbose = TRUE)
@@ -35,30 +39,27 @@ buildMosaics <- function(intervals, paths, cores) {
     td <- terra::terraOptions(print = FALSE)[["tempdir"]]
     od <- paths[["outputs"]]
 
-    ## 2.2.1) Build virtual rasters
-    flist <- unname(sapply(paths[["tiles"]], function(dsn) file.path(dsn, list.files(dsn, pattern = tp))))
-    vrts <- file.path(td, c(
-      paste0("AGB_slope_mosaic_", tp, ".vrt"),
-      paste0("AGB_sample_size_mosaic_", tp, ".vrt")
-    ))
-    tifs <- file.path(od, c(
-      paste0("AGB_slope_mosaic_", tp, ".tif"),
-      paste0("AGB_sample_size_mosaic_", tp, ".tif")
-    ))
+    ## Build virtual rasters
+    flist <- sapply(paths[["tiles"]], function(dsn) fs::dir_ls(dsn, regexp = tp)) |> unname()
 
-    sf::gdal_utils(util = "buildvrt",
-                   source = flist[str_detect(flist, "slope")],
-                   destination = vrts[1])
+    if (length(intervals) == 1) {
+      vrts <- file.path(td, paste0("AGB_", type, "_mosaic.vrt"))
+      tifs <- file.path(od, paste0("AGB_", type , "_mosaic.tif"))
+    } else {
+      vrts <- file.path(td, paste0("AGB_", type, "_mosaic_", tp, ".vrt"))
+      tifs <- file.path(od, paste0("AGB_", type , "_mosaic_", tp, ".tif"))
+    }
 
-    sf::gdal_utils(util = "buildvrt",
-                   source = flist[str_detect(flist, "sample_size")],
-                   destination = vrts[2])
+    sf::gdal_utils(
+      util = "buildvrt",
+      source = flist[stringr::str_detect(flist, type)],
+      destination = vrts
+    )
 
-    ## 2.2.2) Write to raster mosaics
-    sf::gdal_utils(util = "warp", source = vrts[1], destination = tifs[1])
+    ## Write to raster mosaics
+    sf::gdal_utils(util = "warp", source = vrts, destination = tifs)
 
-    sf::gdal_utils(util = "warp", source = vrts[2], destination = tifs[2])
-
-    return(invisible(NULL))
-  })
+    return(tifs)
+  }) |>
+    unlist()
 }

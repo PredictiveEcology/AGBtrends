@@ -4,19 +4,22 @@
 \alias{buildMosaics}
 \title{Build raster mosaics for each time interval}
 \usage{
-buildMosaics(intervals, paths, cores)
+buildMosaics(type, intervals, paths, cl = NULL)
 }
 \arguments{
+\item{type}{character string specifying the mosaic type to build.
+one of \verb{"age", "slope", "sample_size"}.}
+
 \item{intervals}{named list of time intervals over which to build mosaics}
 
 \item{paths}{named list of directory paths, specifying paths for at least:
 \code{scratch} and \code{tiles}.}
 
-\item{cores}{integer specifying the number of cores to use for parallel computations}
+\item{cl}{cluster object.}
 }
 \value{
-\code{NULL}, invisibly. Invoked for side effects of building and writing raster mosaics
-to disk.
+character vector of output raster file names (\code{.tif}).
+Invoked for side effects of building and writing raster mosaics to disk.
 }
 \description{
 Build raster mosaics for each time interval
