@@ -35,29 +35,53 @@ buildMosaics <- function(type, intervals, paths, cl = NULL) {
                         verbose = TRUE)
   })
 
-  parLapply(cl, names(intervals), function(tp) {
+  parLapply(cl, seq(length(intervals)), function(i) {
     td <- terra::terraOptions(print = FALSE)[["tempdir"]]
     od <- paths[["outputs"]]
 
     ## Build virtual rasters
-    flist <- sapply(paths[["tiles"]], function(dsn) fs::dir_ls(dsn, regexp = tp)) |> unname()
+    flist <- sapply(paths[["tiles"]], function(dsn) fs::dir_ls(dsn, regexp = i)) |> unname()
 
     if (length(intervals) == 1) {
       vrts <- file.path(td, paste0("AGB_", type, "_mosaic.vrt"))
       tifs <- file.path(od, paste0("AGB_", type , "_mosaic.tif"))
     } else {
-      vrts <- file.path(td, paste0("AGB_", type, "_mosaic_", tp, ".vrt"))
-      tifs <- file.path(od, paste0("AGB_", type , "_mosaic_", tp, ".tif"))
+      vrts <- file.path(td, paste0("AGB_", type, "_mosaic_t", i, ".vrt"))
+      tifs <- file.path(od, paste0("AGB_", type , "_mosaic_t", i, ".tif"))
     }
 
     sf::gdal_utils(
       util = "buildvrt",
       source = flist[stringr::str_detect(flist, type)],
-      destination = vrts
+      destination = vrts,
+      if (type == "age") options = c("-b", c(1, 6, 11, 16, 21, 26)[i]) # time 1 = 1984 etc.
+      ## TODO: allow customizing the time intervals (i.e., get the layers from `intervals`)
     )
 
     ## Write to raster mosaics
     sf::gdal_utils(util = "warp", source = vrts, destination = tifs)
+
+    if (type == "age") {
+      ## Group into discrete age classes
+      ## TODO: make this customizable with above
+      ages_from <- c( 0, 25, 50,  80, 125)
+      ages_to   <- c(24, 49, 79, 124, 500)
+      lvls <- seq(length(ages_from)) |> as.integer()
+
+      ageRast <- classify(
+        rast(tifs),
+        rcl = cbind(from = ages_from, to = ages_to, becomes = lvls),
+        right = FALSE, others = NA_integer_
+      )
+
+      names(ageRast) <- "ageClass"
+      levels(ageRast) <- data.frame(value = lvls, ageClass = paste0(ages_from, "-", to = ages_to))
+
+      f_ageMosaicClass <- file.path(od, paste0("AGB_age_mosaic_classes_", i, ".tif"))
+      terra::writeRaster(ageRast, f_ageMosaicClass, overwrite = TRUE)
+
+      tifs <- c(tifs, f_ageMosaicClass)
+    }
 
     return(tifs)
   }) |>
