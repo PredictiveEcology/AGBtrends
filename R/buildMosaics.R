@@ -51,7 +51,7 @@ buildMosaics <- function(type, intervals, paths, cl = NULL) {
     }
 
     if (type == "age") {
-      lyrs <- sapply(intervals, head, n = 1L) |> unname()
+      lyrs <- sapply(intervals, utils::head, n = 1L) |> unname()
     }
 
     sf::gdal_utils(

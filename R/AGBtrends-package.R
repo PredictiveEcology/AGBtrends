@@ -16,7 +16,7 @@
 #' @importFrom terra as.int cats classify crop levels mask
 #' @importFrom terra rast rasterize terraOptions vect writeRaster zonal
 #' @importFrom tools file_path_sans_ext
-#' @importFrom utils globalVariables
+#' @importFrom utils globalVariables head
 ## usethis namespace: end
 NULL
 
