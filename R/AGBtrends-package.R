@@ -8,7 +8,7 @@
 #' @importFrom ggplot2 aes facet_grid geom_errorbar geom_hline geom_line ggplot ggtitle
 #' @importFrom ggplot2 labs scale_x_discrete xlab ylab
 #' @importFrom parallel clusterEvalQ clusterExport parLapply stopCluster
-#' @importFrom parallelly makeClusterPSOCK
+#' @importFrom parallelly availableCores makeClusterPSOCK
 #' @importFrom reproducible prepInputs
 #' @importFrom sf gdal_utils st_as_sf st_buffer st_cast st_dimension st_intersection
 #' @importFrom sf st_make_valid st_read st_transform
