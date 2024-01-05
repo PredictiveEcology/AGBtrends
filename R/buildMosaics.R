@@ -1,7 +1,7 @@
 #' Build raster mosaics for each time interval
 #'
 #' @param type character string specifying the mosaic type to build.
-#'             one of `"age", "slope", "sample_size"`.
+#'             one of `"age", "landCover", "slope", "sample_size"`.
 #' @param intervals named list of time intervals over which to build mosaics
 #'
 #' @param paths named list of directory paths, specifying paths for at least:
@@ -14,7 +14,7 @@
 #'
 #' @export
 buildMosaics <- function(type, intervals, paths, cl = NULL) {
-  stopifnot(type %in% c("age", "slope", "sample_size"))
+  stopifnot(tolower(type) %in% c("age", "landcover", "slope", "sample_size"))
 
   cores <- length(intervals)
 
@@ -26,12 +26,12 @@ buildMosaics <- function(type, intervals, paths, cl = NULL) {
     on.exit(stopCluster(cl), add = TRUE)
   }
 
-  clusterExport(cl, varlist = c("cores", "paths"))
+  parallel::clusterExport(cl, varlist = c("cores", "paths"))
 
   parallel::clusterEvalQ(cl, {
     terra::terraOptions(memmax = 25,
                         memfrac = 0.6 / cores,
-                        progress = 1,
+                        progress = 0,
                         verbose = TRUE)
   })
 
@@ -40,7 +40,12 @@ buildMosaics <- function(type, intervals, paths, cl = NULL) {
     od <- paths[["outputs"]]
 
     ## Build virtual rasters
-    flist <- sapply(paths[["tiles"]], function(dsn) fs::dir_ls(dsn, regexp = i)) |> unname()
+    flist <- sapply(paths[["tiles"]], function(dsn) {
+      fs::dir_ls(dsn, regexp = ifelse(length(intervals) == 1,
+                                      paste0(type, "_", basename(dsn)),
+                                      paste0(type, "_t", i, basename(dsn))))
+    }) |>
+      unname()
 
     if (length(intervals) == 1) {
       vrts <- file.path(td, paste0("AGB_", type, "_mosaic.vrt"))
@@ -56,7 +61,7 @@ buildMosaics <- function(type, intervals, paths, cl = NULL) {
 
     sf::gdal_utils(
       util = "buildvrt",
-      source = flist[stringr::str_detect(flist, type)],
+      source = flist,
       destination = vrts,
       if (type == "age") options = c("-b", lyrs[i]) # time 1 = 1984 etc.
     )

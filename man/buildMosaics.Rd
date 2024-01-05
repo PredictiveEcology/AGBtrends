@@ -8,7 +8,7 @@ buildMosaics(type, intervals, paths, cl = NULL)
 }
 \arguments{
 \item{type}{character string specifying the mosaic type to build.
-one of \verb{"age", "slope", "sample_size"}.}
+one of \verb{"age", "landCover", "slope", "sample_size"}.}
 
 \item{intervals}{named list of time intervals over which to build mosaics}
 
