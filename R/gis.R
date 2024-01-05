@@ -2,7 +2,7 @@
 #'
 #' Unknown EPSG code associated with this projection, which is used for the ABoVE datasets.
 #'
-#' This is the character representation of the CRS, which may need to be converted for
+#' This is the character representation of the projection, which may need to be converted for
 #' use with geospatial operations (e.g., using `sf::st_crs()` or `terra::crs()`).
 #'
 #' @export

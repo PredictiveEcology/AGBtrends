@@ -14,7 +14,7 @@ Canada_Albers_Equal_Area_Conic
 Unknown EPSG code associated with this projection, which is used for the ABoVE datasets.
 }
 \details{
-This is the character representation of the CRS, which may need to be converted for
+This is the character representation of the projection, which may need to be converted for
 use with geospatial operations (e.g., using \code{sf::st_crs()} or \code{terra::crs()}).
 }
 \keyword{datasets}

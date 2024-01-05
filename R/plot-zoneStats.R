@@ -3,7 +3,7 @@
 #' @param files2plot character vector of file paths to `.rds` files from which to load
 #'                   a previously-built summary `data.frame` object to use for constructing plots
 #'
-#' @param weighted logical indicating whether to use weighted mean and sd
+#' @param weighted logical indicating whether to use weighted mean and standard deviation
 #'
 #' @param xVar character string indicating which variable to plot on the x-axis
 #'

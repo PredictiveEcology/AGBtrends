@@ -21,7 +21,7 @@ plotZoneStatsIntervals(
 \item{files2plot}{character vector of file paths to \code{.rds} files from which to load
 a previously-built summary \code{data.frame} object to use for constructing plots}
 
-\item{weighted}{logical indicating whether to use weighted mean and sd}
+\item{weighted}{logical indicating whether to use weighted mean and standard deviation}
 
 \item{plotResult}{logical indicating whether to plot to the active graphics device}
 
