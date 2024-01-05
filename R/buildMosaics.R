@@ -1,11 +1,10 @@
 #' Build raster mosaics for each time interval
 #'
 #' @param type character string specifying the mosaic type to build.
-#'             one of `"age", "landCover", "slope", "sample_size"`.
+#'             one of `"age", "LandCover", "LandCover_Simplified, "slope", "sample_size"`.
 #' @param intervals named list of time intervals over which to build mosaics
 #'
-#' @param paths named list of directory paths, specifying paths for at least:
-#'              `scratch` and `tiles`.
+#' @param src,dst character. vector of directory paths to source and destinatian raster files.
 #'
 #' @param cl cluster object.
 #'
@@ -13,8 +12,8 @@
 #'         Invoked for side effects of building and writing raster mosaics to disk.
 #'
 #' @export
-buildMosaics <- function(type, intervals, paths, cl = NULL) {
-  stopifnot(tolower(type) %in% c("age", "landcover", "slope", "sample_size"))
+buildMosaics <- function(type, intervals, src, dst, cl = NULL) {
+  stopifnot(type %in% c("age", "landcover", "landcover_simplified", "slope", "sample_size"))
 
   cores <- length(intervals)
 
@@ -26,7 +25,7 @@ buildMosaics <- function(type, intervals, paths, cl = NULL) {
     on.exit(stopCluster(cl), add = TRUE)
   }
 
-  parallel::clusterExport(cl, varlist = c("cores", "paths"))
+  parallel::clusterExport(cl, varlist = c("cores", "dst", "src"))
 
   parallel::clusterEvalQ(cl, {
     terra::terraOptions(memmax = 25,
@@ -37,10 +36,9 @@ buildMosaics <- function(type, intervals, paths, cl = NULL) {
 
   parLapply(cl, seq(length(intervals)), function(i) {
     td <- terra::terraOptions(print = FALSE)[["tempdir"]]
-    od <- paths[["outputs"]]
 
     ## Build virtual rasters
-    flist <- sapply(paths[["tiles"]], function(dsn) {
+    flist <- sapply(src, function(d) {
       fs::dir_ls(dsn, regexp = ifelse(length(intervals) == 1,
                                       paste0(type, "_", basename(dsn)),
                                       paste0(type, "_t", i, basename(dsn))))
@@ -49,10 +47,10 @@ buildMosaics <- function(type, intervals, paths, cl = NULL) {
 
     if (length(intervals) == 1) {
       vrts <- file.path(td, paste0("AGB_", type, "_mosaic.vrt"))
-      tifs <- file.path(od, paste0("AGB_", type , "_mosaic.tif"))
+      tifs <- file.path(dst, paste0("AGB_", type , "_mosaic.tif"))
     } else {
       vrts <- file.path(td, paste0("AGB_", type, "_mosaic_t", i, ".vrt"))
-      tifs <- file.path(od, paste0("AGB_", type , "_mosaic_t", i, ".tif"))
+      tifs <- file.path(dst, paste0("AGB_", type , "_mosaic_t", i, ".tif"))
     }
 
     if (type == "age") {
