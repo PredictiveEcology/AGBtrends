@@ -4,18 +4,21 @@
 \alias{buildMosaics}
 \title{Build raster mosaics for each time interval}
 \usage{
-buildMosaics(type, intervals, paths, cl = NULL)
+buildMosaics(type, intervals, src, dst, cl = NULL)
 }
 \arguments{
 \item{type}{character string specifying the mosaic type to build.
-one of \verb{"age", "landCover", "slope", "sample_size"}.}
+one of \verb{"age", "LandCover", "LandCover_Simplified, "slope", "sample_size"}.}
 
 \item{intervals}{named list of time intervals over which to build mosaics}
 
-\item{paths}{named list of directory paths, specifying paths for at least:
-\code{scratch} and \code{tiles}.}
+\item{src, dst}{character. vector of directory paths to source and destination raster files.}
 
-\item{cl}{cluster object.}
+\item{cl}{cluster object. if \code{NULL} (default), a cluster will be created using up to
+\code{length(intervals)} number of CPU cores for parallel computation.
+Users can pass their own \code{cl} object or specify option
+\code{parallelly.availableCores.fallback} to reduce the number of cores used.
+See \code{?parallelly.options}.}
 }
 \value{
 character vector of output raster file names (\code{.tif}).

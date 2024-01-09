@@ -1,12 +1,18 @@
 #' Build raster mosaics for each time interval
 #'
+#'
+#'
 #' @param type character string specifying the mosaic type to build.
 #'             one of `"age", "LandCover", "LandCover_Simplified, "slope", "sample_size"`.
 #' @param intervals named list of time intervals over which to build mosaics
 #'
-#' @param src,dst character. vector of directory paths to source and destinatian raster files.
+#' @param src,dst character. vector of directory paths to source and destination raster files.
 #'
-#' @param cl cluster object.
+#' @param cl cluster object. if `NULL` (default), a cluster will be created using up to
+#'           `length(intervals)` number of CPU cores for parallel computation.
+#'           Users can pass their own `cl` object or specify option
+#'           `parallelly.availableCores.fallback` to reduce the number of cores used.
+#'           See `?parallelly.options`.
 #'
 #' @return character vector of output raster file names (`.tif`).
 #'         Invoked for side effects of building and writing raster mosaics to disk.
@@ -15,7 +21,7 @@
 buildMosaics <- function(type, intervals, src, dst, cl = NULL) {
   stopifnot(type %in% c("age", "landcover", "landcover_simplified", "slope", "sample_size"))
 
-  cores <- length(intervals)
+  cores <- max(length(intervals), parallelly::availableCores())
 
   if (is.null(cl)) {
     cl <- parallelly::makeClusterPSOCK(cores,
