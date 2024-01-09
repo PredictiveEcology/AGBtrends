@@ -45,9 +45,9 @@ buildMosaics <- function(type, intervals, src, dst, cl = NULL) {
 
     ## Build virtual rasters
     flist <- sapply(src, function(d) {
-      fs::dir_ls(dsn, regexp = ifelse(length(intervals) == 1,
-                                      paste0(type, "_", basename(dsn)),
-                                      paste0(type, "_t", i, basename(dsn))))
+      fs::dir_ls(d, regexp = ifelse(length(intervals) == 1,
+                                    paste0(type, "_", basename(d)),
+                                    paste0(type, "_t", i, basename(d))))
     }) |>
       unname()
 
@@ -88,7 +88,7 @@ buildMosaics <- function(type, intervals, src, dst, cl = NULL) {
       names(ageRast) <- "ageClass"
       levels(ageRast) <- data.frame(value = lvls, ageClass = paste0(ages_from, "-", to = ages_to))
 
-      f_ageMosaicClass <- file.path(od, paste0("AGB_age_mosaic_classes_", i, ".tif"))
+      f_ageMosaicClass <- file.path(dst, paste0("AGB_age_mosaic_classes_", i, ".tif"))
       terra::writeRaster(ageRast, f_ageMosaicClass, overwrite = TRUE)
 
       tifs <- c(tifs, f_ageMosaicClass)
