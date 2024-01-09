@@ -2,7 +2,8 @@
 
 #' Determine the number of available cores for parallel processing
 #'
-#' Will return at least one core, up to a maximum of `prop` the available CPU cores.
+#' Will return at least one core, up to a maximum of `prop` the available CPU cores,
+#' or option `parallelly.availableCores.fallback`, if specified.
 #'
 #' @param maxCores the maximum number or proportion of cores to use.
 #'

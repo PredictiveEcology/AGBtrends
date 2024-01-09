@@ -13,5 +13,6 @@ getNumCores(maxCores = 0.5)
 integer
 }
 \description{
-Will return at least one core, up to a maximum of \code{prop} the available CPU cores.
+Will return at least one core, up to a maximum of \code{prop} the available CPU cores,
+or option \code{parallelly.availableCores.fallback}, if specified.
 }
