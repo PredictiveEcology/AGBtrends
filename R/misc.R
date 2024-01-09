@@ -17,5 +17,6 @@ getNumCores <- function(maxCores = 0.5) {
   } else {
     min(maxCores, parallelly::availableCores(constraints = "connections"))
   } |>
+    min(getOption("parallelly.availableCores.fallback", NA_integer_), na.rm = TRUE) |>
     max(1L) ## ensure at least one core returned
 }
