@@ -87,5 +87,7 @@ createAnalysisZones <- function(studyArea, targetCRS, destinationPath) {
   analysisZones <- analysisZones[which(!is.na(sf::st_dimension(analysisZones))), ]
   rownames(analysisZones) <- 1:nrow(analysisZones)
 
+  analysisZones <- st_intersection(studyArea, analysisZones)
+
   return(analysisZones)
 }
