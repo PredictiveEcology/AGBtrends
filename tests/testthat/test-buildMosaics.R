@@ -25,7 +25,7 @@ test_that("buildMosaics works for ABoVE AGB slope", {
 
   ## for each interval
   fb <- buildMosaics("slopes", intervals = timeint, src = tilePath, dst = tmpOutPath)
-  expect_identical(length(fa), length(timeint))
+  expect_identical(length(fb), length(timeint))
   expect_true(all(file.exists(fb)))
   expect_equal(unique(file.info(fb)$size), expFileSize)
   file.remove(fb)

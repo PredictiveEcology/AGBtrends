@@ -16,7 +16,7 @@ test_that("createAnalysisZones works", {
       destinationPath = tempdir()
     )
 
-    expect_true(all(colnames(analysisZones) %in%
-                      c("ECOZONE", "ECOPROVINCE", "ECOREGION", "ECODISTRICT", "geometry")))
+    expect_true(all(c("ECOZONE", "ECOPROVINCE", "ECOREGION", "ECODISTRICT", "geometry") %in%
+                      colnames(analysisZones)))
   }
 })
