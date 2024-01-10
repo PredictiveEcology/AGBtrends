@@ -37,6 +37,12 @@ test_that("buildMosaics works for ABoVE AGB slope", {
 test_that("buildMosaics works for ABoVE AGB sample_size", {
   projOutPath <- "/mnt/projects/CBM/2BT/ForProd/outputs/studyArea_WBI"
 
+  skip() ## TODO: input tiles need to be rebuilt:
+  ##  Warning messages:
+  ##    1: In CPL_gdalbuildvrt(if (missing(source)) character(0) else source,  :
+  ##       GDAL Message 1: gdalbuildvrt does not support heterogeneous band data type: expected Byte, got Float32.
+  ##       Skipping /mnt/projects/CBM/2BT/ForProd/outputs/studyArea_WBI/tiles/Bh06v08/agb_sample_size_Bh06v08.tif
+
   skip_if_not(dir.exists(projOutPath))
 
   ## define time intervals (year ranges between 1984-2014)
