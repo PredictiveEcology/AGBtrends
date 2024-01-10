@@ -4,13 +4,15 @@
 \alias{buildMosaics}
 \title{Build raster mosaics for each time interval}
 \usage{
-buildMosaics(type, intervals, src, dst, cl = NULL)
+buildMosaics(type, intervals = NULL, src, dst, cl = NULL)
 }
 \arguments{
 \item{type}{character string specifying the mosaic type to build.
-one of \verb{"age", "LandCover", "LandCover_Simplified, "slope", "sample_size"}.}
+one of \code{"age"}, \code{"LandCover"}, \code{"LandCover_Simplified"}, \code{"binary_disturbed"},
+\code{"slopes"}, \code{"sample_size"}.}
 
-\item{intervals}{named list of time intervals over which to build mosaics}
+\item{intervals}{named list of time intervals over which to build mosaics,
+or \code{NULL} to indicate no intervals}
 
 \item{src, dst}{character. vector of directory paths to source and destination raster files.}
 

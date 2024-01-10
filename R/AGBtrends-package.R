@@ -13,7 +13,7 @@
 #' @importFrom sf gdal_utils st_as_sf st_buffer st_cast st_dimension st_intersection
 #' @importFrom sf st_make_valid st_read st_transform
 #' @importFrom stringr str_c str_detect str_sub
-#' @importFrom terra as.int cats classify crop levels mask
+#' @importFrom terra as.int cats classify crop free_RAM levels mask
 #' @importFrom terra rast rasterize terraOptions vect writeRaster zonal
 #' @importFrom tools file_path_sans_ext
 #' @importFrom utils globalVariables head
