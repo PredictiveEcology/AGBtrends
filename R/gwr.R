@@ -43,7 +43,7 @@ ts_nsamp <- function(x) {
 #'
 #' @param tileDirs character. vector of directory paths to input raster tiles.
 #'
-#' @param type character. one of `"nsamp"` or `"slope"`.
+#' @param type character. one of `"sample_size"` or `"slopes"`.
 #'
 #' @param cores positive integer. number of cores to use for parallel processing.
 #'
@@ -60,17 +60,17 @@ ts_nsamp <- function(x) {
 #' @rdname gwr
 gwr <- function(tileDirs, type = NULL, cores = 1L, prefix = NULL, lyrs = NULL) {
   stopifnot(!is.null(type))
-  if (type == "nsamp") {
+  stopifnot(type %in% c("sample_size", "slopes"))
+
+  if (type == "sample_size") {
     dt <- "INT1U"
     fn <- ts_nsamp
-    prefix <- prefix %||% "agb_sample_size"
-  } else if (type == "slope") {
+  } else if (type == "slopes") {
     dt <- "FLT4S"
     fn <- ts_slope
-    prefix <- prefix %||% "agb_slopes"
-  } else {
-    stop("type must be one of 'nsamp' or 'slope'")
   }
+
+  prefix <- prefix %||% paste0("agb_", type)
 
   odt <- terra::terraOptions(print = FALSE)[["datatype"]]
   terra::terraOptions(datatype = dt)
@@ -103,12 +103,10 @@ gwr <- function(tileDirs, type = NULL, cores = 1L, prefix = NULL, lyrs = NULL) {
 #' @rdname gwr
 gwrt <- function(tileDirs, type = NULL, cores = 1L, intervals = NULL) {
   stopifnot(!is.null(type), !is.null(intervals))
+  stopifnot(type %in% c("sample_size", "slopes"))
 
   vapply(seq_along(intervals), function(timestep) {
-    prefix <- switch(type,
-                     nsamp = prefix %||% paste0("agb_sample_size_", names(intervals)[timestep]),
-                     slope = prefix %||% paste0("agb_slopes_", names(intervals)[timestep]),
-                     stop("type must be one of 'nsamp' or 'slope'"))
+    prefix <- prefix %||% paste0("agb_", type, "_", names(intervals)[timestep])
 
     gwr(tileDirs = tileDirs, type = type, cores = cores, prefix = prefix, lyrs = intervals[[timestep]])
   }, character())

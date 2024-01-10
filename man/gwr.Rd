@@ -12,7 +12,7 @@ gwrt(tileDirs, type = NULL, cores = 1L, intervals = NULL)
 \arguments{
 \item{tileDirs}{character. vector of directory paths to input raster tiles.}
 
-\item{type}{character. one of \code{"nsamp"} or \code{"slope"}.}
+\item{type}{character. one of \code{"sample_size"} or \code{"slopes"}.}
 
 \item{cores}{positive integer. number of cores to use for parallel processing.}
 
