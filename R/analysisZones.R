@@ -83,11 +83,15 @@ createAnalysisZones <- function(studyArea, targetCRS, destinationPath) {
     sf::st_intersection(eco[[3]]) |>
     sf::st_intersection(eco[[2]]) |>
     sf::st_intersection(eco[[1]]) |>
-    sf::st_buffer(0)
-  analysisZones <- analysisZones[which(!is.na(sf::st_dimension(analysisZones))), ]
+    sf::st_buffer(0.0)
+  analysisZones <- analysisZones[which(!is.na(sf::st_dimension(analysisZones))), ] ## rm empty
   rownames(analysisZones) <- 1:nrow(analysisZones)
 
-  analysisZones <- st_intersection(studyArea, analysisZones)
+  ## intersect with user's studyArea, removing slivers, lines, points, etc.
+  analysisZones <- sf::st_intersection(studyArea, analysisZones) |>
+    sf::st_buffer(0.0)
+  analysisZones <- analysisZones[which(!is.na(sf::st_dimension(analysisZones))), ] ## rm empty
+  rownames(analysisZones) <- 1:nrow(analysisZones)
 
-  return(analysisZones)
+  return(sf::st_make_valid(analysisZones))
 }
