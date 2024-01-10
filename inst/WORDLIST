@@ -1,6 +1,7 @@
 ABoVE
 AGB
 Boreal
+CaNFIR
 EPSG
 GWR
 ZOI
@@ -8,7 +9,9 @@ ecodistricts
 ecoprovince
 ecoregions
 ecozones
+filepath
 geospatial
+kNN
 multipolygons
 rasters
 reprojection
