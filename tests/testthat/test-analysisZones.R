@@ -10,11 +10,13 @@ test_that("createAnalysisZones works", {
       sf::st_transform(targetCRS)
 
     ## create analysis zones
-    analysisZones <- createAnalysisZones(
-      studyArea = studyArea,
-      targetCRS = targetCRS,
-      destinationPath = tempdir()
-    )
+    analysisZones <- suppressWarnings({
+      createAnalysisZones(
+        studyArea = studyArea,
+        targetCRS = targetCRS,
+        destinationPath = tempdir()
+      )
+    })
 
     expect_true(all(c("ECOZONE", "ECOPROVINCE", "ECOREGION", "ECODISTRICT", "geometry") %in%
                       colnames(analysisZones)))
