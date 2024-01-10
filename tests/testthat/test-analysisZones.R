@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("createAnalysisZones works", {
   if (require("SpaDES.tools", quietly = TRUE)) {
     ## geospatial projection to use
     targetCRS <- Canada_Albers_Equal_Area_Conic
