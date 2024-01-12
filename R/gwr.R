@@ -108,5 +108,6 @@ gwrt <- function(tileDirs, type = NULL, cores = 1L, prefix = NULL, intervals = N
     prefix <- prefix %||% paste0("agb_", type, "_", names(intervals)[timestep])
 
     gwr(tileDirs = tileDirs, type = type, cores = cores, prefix = prefix, lyrs = intervals[[timestep]])
-  }, character(length(tileDirs)))
+  }, character(length(tileDirs))) |>
+    as.vector()
 }
