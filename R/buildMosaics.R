@@ -1,15 +1,13 @@
 #' Build raster mosaics for each time interval
 #'
-#'
-#'
 #' @param type character string specifying the mosaic type to build.
 #'             one of `"age"`, `"LandCover"`, `"LandCover_Simplified"`, `"binary_disturbed"`,
 #'             `"slopes"`, `"sample_size"`.
 #'
+#' @param src,dst character. vector of directory paths to source and destination raster files.
+#'
 #' @param intervals named list of time intervals over which to build mosaics,
 #'                  or `NULL` to indicate no intervals
-#'
-#' @param src,dst character. vector of directory paths to source and destination raster files.
 #'
 #' @template cl
 #'
@@ -17,7 +15,7 @@
 #'         Invoked for side effects of building and writing raster mosaics to disk.
 #'
 #' @export
-buildMosaics <- function(type, intervals = NULL, src, dst, cl = NULL) {
+buildMosaics <- function(type, src, dst, intervals = NULL, cl = NULL) {
   stopifnot(type %in% c("age", "binary_disturbed", "LandCover", "LandCover_Simplified",
                         "slopes", "sample_size"))
 

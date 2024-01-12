@@ -76,6 +76,9 @@ gwr <- function(tileDirs, type = NULL, cores = 1L, prefix = NULL, lyrs = NULL) {
   terra::terraOptions(datatype = dt)
   on.exit(terra::terraOptions(datatype = odt), add = TRUE)
 
+  ## TODO: per `?terra::app` it usually better to parallelize tile processing rather
+  ## than using multiple cores in app() when the function is simple/fast, as here.
+
   outputFiles <- vapply(tileDirs, function(d) {
     fin <- fs::dir_ls(d, regexp = "ragb", type = "file")
     r <- terra::rast(fin)
@@ -88,7 +91,7 @@ gwr <- function(tileDirs, type = NULL, cores = 1L, prefix = NULL, lyrs = NULL) {
     terra::app(
       r,
       fun = function(x, ff) ff(x),
-      cores = cores,
+      cores = cores, ## TODO: per above, parallelize across tiles, not chunks within in tile
       ff = fn,
       filename = fout,
       overwrite = TRUE
