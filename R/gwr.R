@@ -72,10 +72,6 @@ gwr <- function(tileDirs, type = NULL, cores = 1L, prefix = NULL, lyrs = NULL) {
 
   prefix <- prefix %||% paste0("agb_", type)
 
-  odt <- terra::terraOptions(print = FALSE)[["datatype"]]
-  terra::terraOptions(datatype = dt)
-  on.exit(terra::terraOptions(datatype = odt), add = TRUE)
-
   ## TODO: per `?terra::app` it usually better to parallelize tile processing rather
   ## than using multiple cores in app() when the function is simple/fast, as here.
 
@@ -90,11 +86,11 @@ gwr <- function(tileDirs, type = NULL, cores = 1L, prefix = NULL, lyrs = NULL) {
     fout <- file.path(d, paste0(prefix, "_", basename(d), ".tif"))
     terra::app(
       r,
-      fun = function(x, ff) ff(x),
+      fun = fn,
       cores = cores, ## TODO: per above, parallelize across tiles, not chunks within in tile
-      ff = fn,
       filename = fout,
-      overwrite = TRUE
+      overwrite = TRUE,
+      wopt = list(datatype = dt)
     )
     return(fout)
   }, character(1))
@@ -104,7 +100,7 @@ gwr <- function(tileDirs, type = NULL, cores = 1L, prefix = NULL, lyrs = NULL) {
 
 #' @export
 #' @rdname gwr
-gwrt <- function(tileDirs, type = NULL, cores = 1L, intervals = NULL) {
+gwrt <- function(tileDirs, type = NULL, cores = 1L, prefix = NULL, intervals = NULL) {
   stopifnot(!is.null(type), !is.null(intervals))
   stopifnot(type %in% c("sample_size", "slopes"))
 
@@ -112,5 +108,5 @@ gwrt <- function(tileDirs, type = NULL, cores = 1L, intervals = NULL) {
     prefix <- prefix %||% paste0("agb_", type, "_", names(intervals)[timestep])
 
     gwr(tileDirs = tileDirs, type = type, cores = cores, prefix = prefix, lyrs = intervals[[timestep]])
-  }, character())
+  }, character(length(tileDirs)))
 }
