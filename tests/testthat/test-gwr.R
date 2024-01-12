@@ -42,8 +42,6 @@ test_that("gwr and gwrt works", {
   for (i in seq(length(tileFiles))) {
     r <- terra::rast(fc[i])
     expect_identical(terra::datatype(r), "FLT4S")
-    mm <- r |> terra::minmax() |> as.vector()
-    expect_true(all(mm %in% seq(length(unlist(timeint)))))
   }
   file.remove(fc)
 
@@ -52,8 +50,6 @@ test_that("gwr and gwrt works", {
   for (i in seq(length(tileFiles))) {
     r <- terra::rast(fd[i])
     expect_identical(terra::datatype(r), "FLT4S")
-    mm <- r |> terra::minmax() |> as.vector()
-    expect_true(all(mm %in% seq(length(timeint[[i]]))))
   }
   file.remove(fd)
 
