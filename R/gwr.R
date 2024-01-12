@@ -26,11 +26,11 @@ ts_slope <- function(x) {
 #' @export
 #' @rdname timeseries
 ts_nsamp <- function(x) {
-  x <- sum(x, na.rm = TRUE) |> as.integer()
-  if (x > 1L) {
+  x <- sum(!is.na(x))
+  if (x > 1) {
     return(x)
   } else {
-    return(NA_integer_)
+    return(NA)
   }
 }
 
