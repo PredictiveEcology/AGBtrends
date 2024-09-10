@@ -4,7 +4,14 @@
 \alias{ABovE_CaNFIR_standAge}
 \title{Estimate cell-specific stand age}
 \usage{
-ABovE_CaNFIR_standAge(agbfiles, distfiles, age_mosaic, tilenames, cl = NULL)
+ABovE_CaNFIR_standAge(
+  agbfiles,
+  distfiles,
+  age_mosaic,
+  tilenames,
+  years,
+  cl = NULL
+)
 }
 \arguments{
 \item{agbfiles, distfiles}{character vector of filenames specifying ABoVE AGB and disturbance
@@ -13,6 +20,8 @@ raster tiles.}
 \item{age_mosaic}{character string specifying the filepath to CaNFIR stand age mosaic.}
 
 \item{tilenames}{character vector of output tile directories.}
+
+\item{years}{integer vector of data years.}
 
 \item{cl}{cluster object. if \code{NULL} (default), a cluster will be created using up to
 \code{length(intervals)} number of CPU cores for parallel computation.

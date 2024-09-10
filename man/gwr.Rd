@@ -7,7 +7,7 @@
 \usage{
 gwr(tileDirs, type = NULL, cores = 1L, prefix = NULL, lyrs = NULL)
 
-gwrt(tileDirs, type = NULL, cores = 1L, intervals = NULL)
+gwrt(tileDirs, type = NULL, cores = 1L, prefix = NULL, intervals = NULL)
 }
 \arguments{
 \item{tileDirs}{character. vector of directory paths to input raster tiles.}

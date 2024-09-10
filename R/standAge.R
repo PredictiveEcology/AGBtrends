@@ -9,13 +9,15 @@
 #'
 #' @param tilenames character vector of output tile directories.
 #'
+#' @param years integer vector of data years.
+#'
 #' @template cl
 #'
 #' @return Invisibly, a list of output files created by the function.
 #'         Invoked for the side effect of writing these raster tiles to disk.
 #'
 #' @export
-ABovE_CaNFIR_standAge <- function(agbfiles, distfiles, age_mosaic, tilenames, cl = NULL) {
+ABovE_CaNFIR_standAge <- function(agbfiles, distfiles, age_mosaic, tilenames, years, cl = NULL) {
 
   cores <- getNumCores()
 
@@ -111,7 +113,6 @@ ABovE_CaNFIR_standAge <- function(agbfiles, distfiles, age_mosaic, tilenames, cl
 
   ## cleanup
   parallel::stopCluster(cl)
-  file.remove(list.files(paths$terra, full.names = TRUE))
 
   return(invisible(outFiles))
 }
