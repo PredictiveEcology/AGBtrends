@@ -55,7 +55,7 @@ prepZones <- function(zoi,
     overwrite = overwrite
   )
 
-  # safeguard
+  ## safeguard
   maxchar <- terra::levels(
     terra::rast(
       file.path(destinationPath, paste0(zoiName, "_", fileID, ".tif"))

@@ -57,9 +57,8 @@ ABovE_CaNFIR_standAge <- function(agbfiles, distfiles, age_mosaic, tilenames, ye
     ## Restrict selection to available disturbance history years
     NAflag(ragb) <- 0
 
-    ## 1 c) step i) project stand age mosaic (kNN 2020) to ABoVE CRS & crop to tile
-    ## 1 c) step ii) determine stand age as of year associated with raster layer (negative values become NA)
-    ## 1 c) step iii) split into 5 year age categories
+    ## project stand age mosaic (kNN 2020) to ABoVE CRS & crop to tile;
+    ## determine stand age as of year associated with raster layer (negative values become NA)
     rage <- classify(
       as.integer(names(ragb)) -
         (2020 - crop(project(rast(age_mosaic), ragb[[1]], method = "near" ), ragb[[1]])),
