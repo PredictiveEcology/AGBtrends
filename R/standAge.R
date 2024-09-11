@@ -41,6 +41,8 @@ ABovE_CaNFIR_standAge <- function(agbfiles, distfiles, age_mosaic, tilenames, ye
         verbose = TRUE,
         print = FALSE
       )
+
+      invisible(NULL)
     })
   }
 
