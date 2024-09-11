@@ -30,7 +30,7 @@ buildMosaics <- function(type, src, dst, intervals = NULL, cl = NULL) {
     as.character()
   stopifnot(length(srcType) == 1) ## TODO: improve messaging to user to pass either dirs OR files
 
-  cores <- min(length(intervals), parallelly::availableCores())
+  cores <- getNumCores(length(intervals))
 
   if (is.null(cl)) {
     cl <- parallelly::makeClusterPSOCK(cores,
