@@ -14,7 +14,7 @@
 #' @importFrom sf st_make_valid st_read st_transform
 #' @importFrom stringr str_c str_detect str_sub
 #' @importFrom terra app as.int cats classify cover crop free_RAM global ifel levels mask NAflag<-
-#' @importFrom terra project rast rasterize terraOptions vect writeRaster zonal
+#' @importFrom terra project rast rasterize terraOptions unique vect writeRaster zonal
 #' @importFrom tools file_path_sans_ext
 #' @importFrom utils globalVariables head
 ## usethis namespace: end

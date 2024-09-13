@@ -71,7 +71,7 @@ prepZones <- function(zoi,
   jointRast <- terra::as.int(rcoef * ageClass + zoneCat)
 
   ## re-assign factor levels
-  ftab <- data.frame(value = unique(jointRast)) |>
+  ftab <- data.frame(value = terra::unique(jointRast)) |>
     dplyr::rename(value = ageClass) |>
     dplyr::mutate(
       ageClass = terra::levels(ageClass)[[1]]$ageClass[
