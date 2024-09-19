@@ -16,7 +16,7 @@
 #' @importFrom terra app as.int cats classify cover crop free_RAM global ifel levels mask NAflag<-
 #' @importFrom terra project rast rasterize terraOptions unique vect writeRaster zonal
 #' @importFrom tools file_path_sans_ext
-#' @importFrom utils globalVariables head
+#' @importFrom utils globalVariables head tail
 ## usethis namespace: end
 NULL
 

@@ -5,10 +5,16 @@
 \alias{plotZoneStatsIntervals}
 \title{Plot zone summary statistics}
 \usage{
-plotZoneStats(files2plot = NULL, weighted = TRUE, plotResult = TRUE)
+plotZoneStats(
+  files2plot = NULL,
+  tref = NULL,
+  weighted = TRUE,
+  plotResult = TRUE
+)
 
 plotZoneStatsIntervals(
   files2plot = NULL,
+  tref = NULL,
   weighted = TRUE,
   xVar = "ageClass",
   groupVar = "tp",
@@ -18,8 +24,10 @@ plotZoneStatsIntervals(
 )
 }
 \arguments{
-\item{files2plot}{character vector of file paths to \code{.rds} files from which to load
-a previously-built summary \code{data.frame} object to use for constructing plots}
+\item{files2plot}{character vector of file paths to \code{.rds} files from which to load a
+previously-built summary \code{data.frame} object to use for constructing plots}
+
+\item{tref}{timeseries interval reference \code{data.frame} as output by \code{\link[=tref]{tref()}}}
 
 \item{weighted}{logical indicating whether to use weighted mean and standard deviation}
 
