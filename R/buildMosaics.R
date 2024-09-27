@@ -100,7 +100,7 @@ buildMosaics <- function(type, src, dst, intervals = NULL, cl = NULL) {
     }
 
     ## Write to raster mosaics
-    sf::gdal_utils(util = "warp", source = vrts, destination = tifs)
+    sf::gdal_utils(util = "warp", source = vrts, destination = tifs, options = c("-overwrite"))
     file.remove(vrts) ## remove intermediate files
 
     if (type == "age") {
