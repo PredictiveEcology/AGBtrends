@@ -63,8 +63,10 @@ plotZoneStats <- function(files2plot = NULL, tref = NULL, weighted = TRUE, plotR
 
   ## y-axis label corresponding to examined time period
   tp <- ifelse(str_detect(basename(files2plot), "_t"),
-               paste0("(", str_c(filter(tref, tp == str_sub(files2plot, start = -6L, end = -5L)) |>
-                                   select(yr1, yr2) |> unlist(), collapse = "-"), ")"),
+               paste0("(", str_c(filter(tref, tp == paste0(
+                 "t", str_split(tools::file_path_sans_ext(basename(files2plot)), "_t")[[1]][2]
+               )) |>
+                 select(yr1, yr2) |> unlist(), collapse = "-"), ")"),
                paste0("(", min(tref$yr1), "-", max(tref$yr2),")")
   )
 
@@ -104,7 +106,9 @@ plotZoneStatsIntervals <- function(files2plot = NULL, tref = NULL, weighted = TR
   sumtab <- do.call(rbind, lapply(files2plot, function(x) {
     y <- readRDS(x) |>
       mutate(ageClass = factor(ageClass, levels = unique(ageClass), ordered = TRUE))
-    y$tp <- factor(rep(str_sub(x, start = -6L, end = -5L), nrow(y)),
+    y$tp <- factor(rep(paste0(
+      "t", str_split(tools::file_path_sans_ext(basename(x)), "_t")[[1]][2]
+    ), nrow(y)),
                    levels = paste0("t", seq_len(length(files2plot))), ordered = TRUE)
     return(y |> relocate(tp, .before = value))
   }))

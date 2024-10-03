@@ -12,7 +12,7 @@
 #' @importFrom reproducible prepInputs
 #' @importFrom sf gdal_utils st_as_sf st_buffer st_cast st_dimension st_intersection
 #' @importFrom sf st_make_valid st_read st_transform
-#' @importFrom stringr str_c str_detect str_sub
+#' @importFrom stringr str_c str_detect str_split str_sub
 #' @importFrom terra app as.int cats classify cover crop free_RAM global ifel levels mask NAflag<-
 #' @importFrom terra project rast rasterize terraOptions unique vect writeRaster zonal
 #' @importFrom tools file_path_sans_ext
