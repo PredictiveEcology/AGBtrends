@@ -1,3 +1,8 @@
+# AGBtrends 0.0.11
+
+* drop support for R 4.2 due to changes in packages dependencies;
+* add `httr2` to Imports;
+
 # AGBtrends 0.0.10
 
 * fix interval extraction from file name in `plotZoneStats*()`;

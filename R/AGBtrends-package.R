@@ -7,6 +7,7 @@
 #' @importFrom fs dir_ls
 #' @importFrom ggplot2 aes facet_grid geom_errorbar geom_hline geom_line ggplot ggtitle
 #' @importFrom ggplot2 labs scale_x_discrete xlab ylab
+#' @importFrom httr2 is_online
 #' @importFrom parallel clusterEvalQ clusterExport parLapply stopCluster
 #' @importFrom parallelly availableCores makeClusterPSOCK
 #' @importFrom reproducible prepInputs

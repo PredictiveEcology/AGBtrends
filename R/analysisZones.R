@@ -41,6 +41,11 @@
 #' @export
 #'
 createAnalysisZones <- function(studyArea, targetCRS, destinationPath) {
+  ## NOTE: httr2 is needed by reproducible to download these files,
+  ## but since it's only Suggested by that package, we'll use it here
+  ## simply to ensure it's available.
+  httr2::is_online()
+
   if (!is(studyArea, "sf")) {
     studyArea <- sf::st_as_sf(studyArea)
   }
